@@ -1,15 +1,26 @@
 {
   "name": "react-tea-time-topic",
   "version": "1.0.0",
-  "description": "",
+  "description": "Let's recreate our last JS challenge, as a React app.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
+  "browserslist": [
+		"last 1 chrome versions"
+	],
   "dependencies": {
     "react": "^17.0.1",
     "react-dom": "^17.0.1"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bakozetra/react-tea-time-topic.git"
+  },
+  "bugs": {
+    "url": "https://github.com/bakozetra/react-tea-time-topic/issues"
+  },
+  "homepage": "https://github.com/bakozetra/react-tea-time-topic#readme"
 }
