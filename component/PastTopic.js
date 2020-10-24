@@ -1,19 +1,15 @@
 import React, { useState } from 'react'
 
-export default function PastTopics({title , id , topics }) {
-  let [deleteBtn , setDeletBtn] = useState('');
+export default function PastTopics({title, top , setPastTopic, pastTopic, id , topics }) {
+  console.log(top);
    const handleDelete = (e) => {
-    const Id = e.target.id;
-    const topicToKeep = topics.filter(data => data.id !== Id)
-    console.log(topicToKeep);
-    console.log(topics);
-    topics = deleteBtn;
-    deleteBtn = topicToKeep ;
-    setDeletBtn(deleteBtn);
+    const Id = top.id;
+    setPastTopic(pastTopic.filter(topic => topic.id !== Id))
    };
+
   return (<article>
-            <button class="delete" id={id} onClick={handleDelete} value={topics.id}></button>
-             <h5 class="topic-text">${title}</h5>
+            <button className="delete" id={id} onClick={handleDelete} value={top.id}>Delete</button>
+             <h5 className="topic-text">${title}</h5>
             <p>Discussed</p>
           </article>) 
-  }
+        }

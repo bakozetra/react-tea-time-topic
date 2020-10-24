@@ -1,7 +1,9 @@
 import React ,{useEffect, useState}from 'react'
 
 
-export default function NextTopics ({downvotes ,id ,title ,upvotes,topics}) {
+export default function NextTopics ({downvotes ,id ,title, top ,upvotes,topics}) {
+  // console.log(top);
+
   const [btn , setBtn] = useState([upvotes]);
   const [decreaBtn , setDecreasBtn] =useState([downvotes]); 
 	const  addBtn = (e) => {

@@ -29788,28 +29788,26 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 function PastTopics({
   title,
+  top,
+  setPastTopic,
+  pastTopic,
   id,
   topics
 }) {
-  let [deleteBtn, setDeletBtn] = (0, _react.useState)('');
+  console.log(top);
 
   const handleDelete = e => {
-    const Id = e.target.id;
-    const topicToKeep = topics.filter(data => data.id !== Id);
-    console.log(topicToKeep);
-    console.log(topics);
-    topics = deleteBtn;
-    deleteBtn = topicToKeep;
-    setDeletBtn(deleteBtn);
+    const Id = top.id;
+    setPastTopic(pastTopic.filter(topic => topic.id !== Id));
   };
 
   return /*#__PURE__*/_react.default.createElement("article", null, /*#__PURE__*/_react.default.createElement("button", {
-    class: "delete",
+    className: "delete",
     id: id,
     onClick: handleDelete,
-    value: topics.id
-  }), /*#__PURE__*/_react.default.createElement("h5", {
-    class: "topic-text"
+    value: top.id
+  }, "Delete"), /*#__PURE__*/_react.default.createElement("h5", {
+    className: "topic-text"
   }, "$", title), /*#__PURE__*/_react.default.createElement("p", null, "Discussed"));
 }
 },{"react":"node_modules/react/index.js"}],"component/NextTopic.js":[function(require,module,exports) {
@@ -29830,9 +29828,11 @@ function NextTopics({
   downvotes,
   id,
   title,
+  top,
   upvotes,
   topics
 }) {
+  // console.log(top);
   const [btn, setBtn] = (0, _react.useState)([upvotes]);
   const [decreaBtn, setDecreasBtn] = (0, _react.useState)([downvotes]);
 
@@ -29873,7 +29873,79 @@ function NextTopics({
     className: "downvote-number"
   }, decreaBtn)));
 }
-},{"react":"node_modules/react/index.js"}],"component/topics.js":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js"}],"../../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
+var bundleURL = null;
+
+function getBundleURLCached() {
+  if (!bundleURL) {
+    bundleURL = getBundleURL();
+  }
+
+  return bundleURL;
+}
+
+function getBundleURL() {
+  // Attempt to find the URL of the current script and use that as the base URL
+  try {
+    throw new Error();
+  } catch (err) {
+    var matches = ('' + err.stack).match(/(https?|file|ftp|chrome-extension|moz-extension):\/\/[^)\n]+/g);
+
+    if (matches) {
+      return getBaseURL(matches[0]);
+    }
+  }
+
+  return '/';
+}
+
+function getBaseURL(url) {
+  return ('' + url).replace(/^((?:https?|file|ftp|chrome-extension|moz-extension):\/\/.+)\/[^/]+$/, '$1') + '/';
+}
+
+exports.getBundleURL = getBundleURLCached;
+exports.getBaseURL = getBaseURL;
+},{}],"../../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/css-loader.js":[function(require,module,exports) {
+var bundle = require('./bundle-url');
+
+function updateLink(link) {
+  var newLink = link.cloneNode();
+
+  newLink.onload = function () {
+    link.remove();
+  };
+
+  newLink.href = link.href.split('?')[0] + '?' + Date.now();
+  link.parentNode.insertBefore(newLink, link.nextSibling);
+}
+
+var cssTimeout = null;
+
+function reloadCSS() {
+  if (cssTimeout) {
+    return;
+  }
+
+  cssTimeout = setTimeout(function () {
+    var links = document.querySelectorAll('link[rel="stylesheet"]');
+
+    for (var i = 0; i < links.length; i++) {
+      if (bundle.getBaseURL(links[i].href) === bundle.getBundleURL()) {
+        updateLink(links[i]);
+      }
+    }
+
+    cssTimeout = null;
+  }, 50);
+}
+
+module.exports = reloadCSS;
+},{"./bundle-url":"../../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/bundle-url.js"}],"component/style.css":[function(require,module,exports) {
+var reloadCSS = require('_css_loader');
+
+module.hot.dispose(reloadCSS);
+module.hot.accept(reloadCSS);
+},{"_css_loader":"../../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/css-loader.js"}],"component/topics.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -29887,6 +29959,8 @@ var _PastTopic = _interopRequireDefault(require("./PastTopic"));
 
 var _NextTopic = _interopRequireDefault(require("./NextTopic"));
 
+require("./style.css");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
@@ -29899,6 +29973,7 @@ const API_URL = "https://gist.githubusercontent.com/Pinois/93afbc4a061352a0c7033
 
 function Topics(props) {
   let [topics, setTopic] = (0, _react.useState)([]);
+  let [pastTopic, setPastTopic] = (0, _react.useState)([]);
 
   const fetchTopic = async () => {
     try {
@@ -29914,21 +29989,31 @@ function Topics(props) {
   (0, _react.useEffect)(() => {
     fetchTopic();
   }, []);
+  (0, _react.useEffect)(() => {
+    setPastTopic();
+  }, [topics]);
+  (0, _react.useEffect)(() => {
+    setPastTopic(topics.filter(topic => topic.discussedOn));
+  }, [topics]);
   return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement("h2", null, "Next topic"), topics.filter(topic => !topic.discussedOn).map(top => {
     return /*#__PURE__*/_react.default.createElement(_NextTopic.default, _extends({
       key: top.id
     }, top, {
+      top: top,
       topics: topics
     }));
-  }), /*#__PURE__*/_react.default.createElement("h2", null, "Past topic"), topics.filter(topic => topic.discussedOn).map(top => {
+  }), /*#__PURE__*/_react.default.createElement("h2", null, "Past topic"), pastTopic.map(top => {
     return /*#__PURE__*/_react.default.createElement(_PastTopic.default, _extends({
       key: top.id
     }, top, {
+      top: top,
+      setPastTopic: setPastTopic,
+      pastTopic: pastTopic,
       topics: topics
     }));
   }));
 }
-},{"react":"node_modules/react/index.js","./PastTopic":"component/PastTopic.js","./NextTopic":"component/NextTopic.js"}],"component/form.js":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","./PastTopic":"component/PastTopic.js","./NextTopic":"component/NextTopic.js","./style.css":"component/style.css"}],"component/form.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -30024,7 +30109,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55906" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58612" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

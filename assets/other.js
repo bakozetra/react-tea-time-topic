@@ -19,7 +19,7 @@ export default function Topics () {
  
   useEffect(() => {
     fetchTopic()
-  } , [topics])
+  } , [])
 
   useEffect (() => {
     setAddTopic(topics.filter( topic => !topic.discussedOn));
