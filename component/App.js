@@ -1,10 +1,10 @@
-import React from 'react'
+import React  from 'react'
 import Topics from './topics'
-import AddTopic from './AddTopic'
+import Form from './form'
 export default function App() {
   return (
     <>
-      <AddTopic />
+      <Form  />
       <Topics />
     </>
   )

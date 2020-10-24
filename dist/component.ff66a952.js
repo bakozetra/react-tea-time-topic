@@ -29772,42 +29772,106 @@ if ("development" === 'production') {
 } else {
   module.exports = require('./cjs/react-dom.development.js');
 }
-},{"./cjs/react-dom.development.js":"node_modules/react-dom/cjs/react-dom.development.js"}],"component/article.js":[function(require,module,exports) {
+},{"./cjs/react-dom.development.js":"node_modules/react-dom/cjs/react-dom.development.js"}],"component/PastTopic.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = Article;
+exports.default = PastTopics;
 
-var _react = _interopRequireDefault(require("react"));
+var _react = _interopRequireWildcard(require("react"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
 
-function Article({
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+function PastTopics({
+  title,
+  id,
+  topics
+}) {
+  let [deleteBtn, setDeletBtn] = (0, _react.useState)('');
+
+  const handleDelete = e => {
+    const Id = e.target.id;
+    const topicToKeep = topics.filter(data => data.id !== Id);
+    console.log(topicToKeep);
+    console.log(topics);
+    topics = deleteBtn;
+    deleteBtn = topicToKeep;
+    setDeletBtn(deleteBtn);
+  };
+
+  return /*#__PURE__*/_react.default.createElement("article", null, /*#__PURE__*/_react.default.createElement("button", {
+    class: "delete",
+    id: id,
+    onClick: handleDelete,
+    value: topics.id
+  }), /*#__PURE__*/_react.default.createElement("h5", {
+    class: "topic-text"
+  }, "$", title), /*#__PURE__*/_react.default.createElement("p", null, "Discussed"));
+}
+},{"react":"node_modules/react/index.js"}],"component/NextTopic.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = NextTopics;
+
+var _react = _interopRequireWildcard(require("react"));
+
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+function NextTopics({
   downvotes,
   id,
   title,
-  upvotes
+  upvotes,
+  topics
 }) {
+  const [btn, setBtn] = (0, _react.useState)([upvotes]);
+  const [decreaBtn, setDecreasBtn] = (0, _react.useState)([downvotes]);
+
+  const addBtn = e => {
+    const Id = e.target.id;
+    const findId = topics.find(data => data.id == Id);
+    console.log(findId);
+    let addedScore = findId.upvotes++;
+    setBtn(addedScore);
+  };
+
+  const decreasVote = e => {
+    const Id = e.target.id;
+    const findId = topics.find(data => data.id == Id);
+    console.log(findId);
+    let dicreaseScore = findId.downvotes--;
+    setDecreasBtn(dicreaseScore);
+  };
+
   return /*#__PURE__*/_react.default.createElement("article", null, /*#__PURE__*/_react.default.createElement("button", {
     className: "archive",
-    "data-id": id
+    id: id
   }), /*#__PURE__*/_react.default.createElement("h5", {
     className: "topic-text"
   }, title), /*#__PURE__*/_react.default.createElement("div", {
     className: "votes"
   }, /*#__PURE__*/_react.default.createElement("button", {
     className: "upvote",
-    "data-id": id
+    onClick: addBtn,
+    id: id
   }), /*#__PURE__*/_react.default.createElement("span", {
     className: "upvote-number"
-  }, upvotes), /*#__PURE__*/_react.default.createElement("button", {
+  }, btn), /*#__PURE__*/_react.default.createElement("button", {
     className: "downvote",
-    "data-id": id
+    onClick: decreasVote,
+    id: id
   }), /*#__PURE__*/_react.default.createElement("span", {
     className: "downvote-number"
-  }, downvotes)));
+  }, decreaBtn)));
 }
 },{"react":"node_modules/react/index.js"}],"component/topics.js":[function(require,module,exports) {
 "use strict";
@@ -29819,7 +29883,9 @@ exports.default = Topics;
 
 var _react = _interopRequireWildcard(require("react"));
 
-var _article = _interopRequireDefault(require("./article"));
+var _PastTopic = _interopRequireDefault(require("./PastTopic"));
+
+var _NextTopic = _interopRequireDefault(require("./NextTopic"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -29831,8 +29897,8 @@ function _extends() { _extends = Object.assign || function (target) { for (var i
 
 const API_URL = "https://gist.githubusercontent.com/Pinois/93afbc4a061352a0c70331ca4a16bb99/raw/6da767327041de13693181c2cb09459b0a3657a1/topics.json";
 
-function Topics() {
-  const [topics, setTopic] = (0, _react.useState)([]);
+function Topics(props) {
+  let [topics, setTopic] = (0, _react.useState)([]);
 
   const fetchTopic = async () => {
     try {
@@ -29848,13 +29914,21 @@ function Topics() {
   (0, _react.useEffect)(() => {
     fetchTopic();
   }, []);
-  return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, topics.map(topic => {
-    return /*#__PURE__*/_react.default.createElement(_article.default, _extends({
-      key: topic.id
-    }, topic));
+  return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement("h2", null, "Next topic"), topics.filter(topic => !topic.discussedOn).map(top => {
+    return /*#__PURE__*/_react.default.createElement(_NextTopic.default, _extends({
+      key: top.id
+    }, top, {
+      topics: topics
+    }));
+  }), /*#__PURE__*/_react.default.createElement("h2", null, "Past topic"), topics.filter(topic => topic.discussedOn).map(top => {
+    return /*#__PURE__*/_react.default.createElement(_PastTopic.default, _extends({
+      key: top.id
+    }, top, {
+      topics: topics
+    }));
   }));
 }
-},{"react":"node_modules/react/index.js","./article":"component/article.js"}],"component/form.js":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","./PastTopic":"component/PastTopic.js","./NextTopic":"component/NextTopic.js"}],"component/form.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -29873,6 +29947,7 @@ function Form() {
 
   const handleSubmit = e => {
     e.preventDefault();
+    setInputValue(e.target.value);
     console.log(e.target.value);
   };
 
@@ -29890,24 +29965,7 @@ function Form() {
     onClick: handleSubmit
   }, "Submit"));
 }
-},{"react":"node_modules/react/index.js"}],"component/AddTopic.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = AddTopic;
-
-var _react = _interopRequireDefault(require("react"));
-
-var _form = _interopRequireDefault(require("./form"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function AddTopic() {
-  return /*#__PURE__*/_react.default.createElement(_form.default, null);
-}
-},{"react":"node_modules/react/index.js","./form":"component/form.js"}],"component/App.js":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js"}],"component/App.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -29919,14 +29977,14 @@ var _react = _interopRequireDefault(require("react"));
 
 var _topics = _interopRequireDefault(require("./topics"));
 
-var _AddTopic = _interopRequireDefault(require("./AddTopic"));
+var _form = _interopRequireDefault(require("./form"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function App() {
-  return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement(_AddTopic.default, null), /*#__PURE__*/_react.default.createElement(_topics.default, null));
+  return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement(_form.default, null), /*#__PURE__*/_react.default.createElement(_topics.default, null));
 }
-},{"react":"node_modules/react/index.js","./topics":"component/topics.js","./AddTopic":"component/AddTopic.js"}],"component/index.js":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","./topics":"component/topics.js","./form":"component/form.js"}],"component/index.js":[function(require,module,exports) {
 "use strict";
 
 var _react = _interopRequireDefault(require("react"));
@@ -29966,7 +30024,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64533" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55906" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
