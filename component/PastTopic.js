@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 
 export default function PastTopics({title, top , setPastTopic, pastTopic, id , topics }) {
-  console.log(top);
    const handleDelete = (e) => {
     const Id = top.id;
     setPastTopic(pastTopic.filter(topic => topic.id !== Id))

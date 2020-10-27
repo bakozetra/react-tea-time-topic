@@ -1,7 +1,7 @@
 import React ,{useEffect, useState}from 'react'
 
 
-export default function NextTopics ({downvotes ,id ,title, top ,upvotes,topics}) {
+export default function NextTopics ({downvotes ,id ,title, top ,upvotes,topics, setTopic}) {
   // console.log(top);
 
   const [btn , setBtn] = useState([upvotes]);
@@ -21,10 +21,15 @@ export default function NextTopics ({downvotes ,id ,title, top ,upvotes,topics})
     let dicreaseScore = findId.downvotes--;
     setDecreasBtn(dicreaseScore);
    }
-
+   const archiveTopic = (id) => {
+    let topicToArchive = topics.find(topic => topic.id === id);
+    console.log(topicToArchive);
+    topicToArchive.discussedOn = Date.now();
+    setTopic( [...topics]);
+  };
   return (
     <article>
-    <button className ="archive" id={id}>
+    <button className ="archive" id={id} onClick={() => archiveTopic(id)}>
       {/* {archiveSVG} */}
     </button>
     <h5 className ="topic-text">{title}</h5>

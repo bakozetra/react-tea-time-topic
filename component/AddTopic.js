@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import Form from './form'
-export default function AddTopic () { 
+export default function AddTopic ({top , topics , setTopic}) { 
   return (
-    <Form onSubmit={handleSubmit}/>
+    <Form   top={top} topics={topics} setTopic={setTopic}/>
   )
 }

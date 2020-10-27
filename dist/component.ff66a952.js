@@ -29794,8 +29794,6 @@ function PastTopics({
   id,
   topics
 }) {
-  console.log(top);
-
   const handleDelete = e => {
     const Id = top.id;
     setPastTopic(pastTopic.filter(topic => topic.id !== Id));
@@ -29830,7 +29828,8 @@ function NextTopics({
   title,
   top,
   upvotes,
-  topics
+  topics,
+  setTopic
 }) {
   // console.log(top);
   const [btn, setBtn] = (0, _react.useState)([upvotes]);
@@ -29852,9 +29851,17 @@ function NextTopics({
     setDecreasBtn(dicreaseScore);
   };
 
+  const archiveTopic = id => {
+    let topicToArchive = topics.find(topic => topic.id === id);
+    console.log(topicToArchive);
+    topicToArchive.discussedOn = Date.now();
+    setTopic([...topics]);
+  };
+
   return /*#__PURE__*/_react.default.createElement("article", null, /*#__PURE__*/_react.default.createElement("button", {
     className: "archive",
-    id: id
+    id: id,
+    onClick: () => archiveTopic(id)
   }), /*#__PURE__*/_react.default.createElement("h5", {
     className: "topic-text"
   }, title), /*#__PURE__*/_react.default.createElement("div", {
@@ -29945,7 +29952,89 @@ var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
 module.hot.accept(reloadCSS);
-},{"_css_loader":"../../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/css-loader.js"}],"component/topics.js":[function(require,module,exports) {
+},{"_css_loader":"../../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/css-loader.js"}],"component/form.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = Form;
+
+var _react = _interopRequireWildcard(require("react"));
+
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+function Form({
+  topics,
+  setTopic
+}) {
+  console.log(topics);
+  const [inputValue, setInputValue] = (0, _react.useState)(' ');
+
+  const handleSubmit = e => {
+    e.preventDefault();
+    let newTopic = createNewTopic(e.target.value);
+    console.log(newTopic);
+    topics.push(newTopic);
+    setTopic([...topics]);
+  };
+
+  const createNewTopic = title => {
+    return {
+      upvotes: 0,
+      downvotes: 0,
+      disussedOn: '',
+      title: title,
+      id: Date.now()
+    };
+  };
+
+  return /*#__PURE__*/_react.default.createElement("form", {
+    className: "add-topic"
+  }, /*#__PURE__*/_react.default.createElement("input", {
+    required: true,
+    type: "text",
+    value: inputValue,
+    onChange: e => setInputValue(e.target.value),
+    placeholder: "Type your topic idea here"
+  }), /*#__PURE__*/_react.default.createElement("button", {
+    type: "submit",
+    value: inputValue,
+    onClick: handleSubmit
+  }, "Submit"));
+}
+},{"react":"node_modules/react/index.js"}],"component/AddTopic.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = AddTopic;
+
+var _react = _interopRequireWildcard(require("react"));
+
+var _form = _interopRequireDefault(require("./form"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+function AddTopic({
+  top,
+  topics,
+  setTopic
+}) {
+  return /*#__PURE__*/_react.default.createElement(_form.default, {
+    top: top,
+    topics: topics,
+    setTopic: setTopic
+  });
+}
+},{"react":"node_modules/react/index.js","./form":"component/form.js"}],"component/topics.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -29960,6 +30049,8 @@ var _PastTopic = _interopRequireDefault(require("./PastTopic"));
 var _NextTopic = _interopRequireDefault(require("./NextTopic"));
 
 require("./style.css");
+
+var _AddTopic = _interopRequireDefault(require("./AddTopic"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -29995,12 +30086,17 @@ function Topics(props) {
   (0, _react.useEffect)(() => {
     setPastTopic(topics.filter(topic => topic.discussedOn));
   }, [topics]);
-  return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement("h2", null, "Next topic"), topics.filter(topic => !topic.discussedOn).map(top => {
+  return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement(_AddTopic.default, {
+    topics: topics,
+    setTopic: setTopic
+  }), /*#__PURE__*/_react.default.createElement("h2", null, "Next topic"), topics.filter(topic => !topic.discussedOn).map(top => {
     return /*#__PURE__*/_react.default.createElement(_NextTopic.default, _extends({
       key: top.id
     }, top, {
       top: top,
-      topics: topics
+      topics: topics,
+      discussedOn: top.discussedOn,
+      setTopic: setTopic
     }));
   }), /*#__PURE__*/_react.default.createElement("h2", null, "Past topic"), pastTopic.map(top => {
     return /*#__PURE__*/_react.default.createElement(_PastTopic.default, _extends({
@@ -30009,48 +30105,13 @@ function Topics(props) {
       top: top,
       setPastTopic: setPastTopic,
       pastTopic: pastTopic,
-      topics: topics
+      topics: topics,
+      discussedOn: top.discussedOn,
+      setTopic: setTopic
     }));
   }));
 }
-},{"react":"node_modules/react/index.js","./PastTopic":"component/PastTopic.js","./NextTopic":"component/NextTopic.js","./style.css":"component/style.css"}],"component/form.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = Form;
-
-var _react = _interopRequireWildcard(require("react"));
-
-function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
-
-function Form() {
-  const [inputValue, setInputValue] = (0, _react.useState)(' ');
-
-  const handleSubmit = e => {
-    e.preventDefault();
-    setInputValue(e.target.value);
-    console.log(e.target.value);
-  };
-
-  return /*#__PURE__*/_react.default.createElement("form", {
-    className: "add-topic"
-  }, /*#__PURE__*/_react.default.createElement("input", {
-    required: true,
-    type: "text",
-    value: inputValue,
-    onChange: e => setInputValue(e.target.value),
-    placeholder: "Type your topic idea here"
-  }), /*#__PURE__*/_react.default.createElement("button", {
-    type: "submit",
-    value: inputValue,
-    onClick: handleSubmit
-  }, "Submit"));
-}
-},{"react":"node_modules/react/index.js"}],"component/App.js":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","./PastTopic":"component/PastTopic.js","./NextTopic":"component/NextTopic.js","./style.css":"component/style.css","./AddTopic":"component/AddTopic.js"}],"component/App.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -30064,12 +30125,14 @@ var _topics = _interopRequireDefault(require("./topics"));
 
 var _form = _interopRequireDefault(require("./form"));
 
+var _AddTopic = _interopRequireDefault(require("./AddTopic"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function App() {
-  return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement(_form.default, null), /*#__PURE__*/_react.default.createElement(_topics.default, null));
+  return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement(_topics.default, null));
 }
-},{"react":"node_modules/react/index.js","./topics":"component/topics.js","./form":"component/form.js"}],"component/index.js":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","./topics":"component/topics.js","./form":"component/form.js","./AddTopic":"component/AddTopic.js"}],"component/index.js":[function(require,module,exports) {
 "use strict";
 
 var _react = _interopRequireDefault(require("react"));
@@ -30109,7 +30172,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58612" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49833" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
