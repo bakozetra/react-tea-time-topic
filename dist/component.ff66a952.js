@@ -29799,6 +29799,7 @@ function PastTopics({
     setPastTopic(pastTopic.filter(topic => topic.id !== Id));
   };
 
+  const discussedOnDate = new Date(Number(top.discussedOn));
   return /*#__PURE__*/_react.default.createElement("article", null, /*#__PURE__*/_react.default.createElement("button", {
     className: "delete",
     id: id,
@@ -29806,9 +29807,15 @@ function PastTopics({
     value: top.id
   }, "Delete"), /*#__PURE__*/_react.default.createElement("h5", {
     className: "topic-text"
-  }, "$", title), /*#__PURE__*/_react.default.createElement("p", null, "Discussed"));
+  }, title), /*#__PURE__*/_react.default.createElement("p", null, "Discussed on ", discussedOnDate.toLocaleDateString()));
 }
-},{"react":"node_modules/react/index.js"}],"component/NextTopic.js":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js"}],"svg/archive.svg":[function(require,module,exports) {
+module.exports = "/archive.a1bd015a.svg";
+},{}],"svg/downvotes.svg":[function(require,module,exports) {
+module.exports = "/downvotes.f8df3d02.svg";
+},{}],"svg/upvote.svg":[function(require,module,exports) {
+module.exports = "/upvote.f2ca8059.svg";
+},{}],"component/NextTopic.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -29817,6 +29824,14 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = NextTopics;
 
 var _react = _interopRequireWildcard(require("react"));
+
+var _archive = _interopRequireDefault(require("../svg/archive.svg"));
+
+var _downvotes = _interopRequireDefault(require("../svg/downvotes.svg"));
+
+var _upvote = _interopRequireDefault(require("../svg/upvote.svg"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
 
@@ -29862,7 +29877,9 @@ function NextTopics({
     className: "archive",
     id: id,
     onClick: () => archiveTopic(id)
-  }), /*#__PURE__*/_react.default.createElement("h5", {
+  }, /*#__PURE__*/_react.default.createElement("img", {
+    src: _archive.default
+  })), /*#__PURE__*/_react.default.createElement("h5", {
     className: "topic-text"
   }, title), /*#__PURE__*/_react.default.createElement("div", {
     className: "votes"
@@ -29870,17 +29887,21 @@ function NextTopics({
     className: "upvote",
     onClick: addBtn,
     id: id
-  }), /*#__PURE__*/_react.default.createElement("span", {
+  }, /*#__PURE__*/_react.default.createElement("img", {
+    src: _upvote.default
+  })), /*#__PURE__*/_react.default.createElement("span", {
     className: "upvote-number"
   }, btn), /*#__PURE__*/_react.default.createElement("button", {
     className: "downvote",
     onClick: decreasVote,
     id: id
-  }), /*#__PURE__*/_react.default.createElement("span", {
+  }, /*#__PURE__*/_react.default.createElement("img", {
+    src: _downvotes.default
+  })), /*#__PURE__*/_react.default.createElement("span", {
     className: "downvote-number"
   }, decreaBtn)));
 }
-},{"react":"node_modules/react/index.js"}],"../../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","../svg/archive.svg":"svg/archive.svg","../svg/downvotes.svg":"svg/downvotes.svg","../svg/upvote.svg":"svg/upvote.svg"}],"../../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
 var bundleURL = null;
 
 function getBundleURLCached() {
@@ -30172,7 +30193,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49833" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64895" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
